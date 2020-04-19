@@ -5,10 +5,50 @@
 #include <sys/time.h>
 #include "philosphers.h"
 
-// Make print function (1 print statement)
-// Parsing (# of phil, ttd, tteat, ttsleep, ttthink, # time to eat)
+static void make_str(char *str, t_philosphers *phil, size_t len)
+{
+	ft_strlcat(str,phil->time_str, len);
+	ft_strlcat(str," ms : Philosopher ", len);
+	ft_strlcat(str, phil->num_str, len);
+	if (*phil->state == -1)
+		ft_strlcat(str,"has taken a fork", len);
+	else if (*phil->state == 3)
+		ft_strlcat(str,"died", len);
+	else if (*phil->state == 2)
+		ft_strlcat(str,"is thinking", len);
+	else if (*phil->state == 1)
+		ft_strlcat(str,"is sleeping", len);
+	else if (*phil->state == 0)
+		ft_strlcat(str,"is eating", len);
+	write(1, str, len);
+}
 
+void *print_status(void *var)
+{
+	char *print;
+	long len;
+	t_philosphers *phil;
 
+	phil = var;
+	phil->num_str = ft_ltoa_base(phil->number, 10);
+	phil->time_str = ft_ltoa_base(*phil->time, 10);
+	len = (ft_strlen(phil->time_str) + ft_strlen(phil->num_str) + 18);
+	if (*phil->state == -1)
+		len += 18;
+	else if (*phil->state == 3)
+		len += 4;
+	else if (*phil->state == 2)
+		len += 12;
+	else if (*phil->state == 1)
+		len += 12;
+	else if (*phil->state == 0)
+		len += 10;
+	print = (char *)malloc(len + 1);
+	memset(print, len,'\0');
+	make_str(print, phil, len);
+	free(print);
+	pthread_exit(0);
+}
 
 void *life_cycle(void *arg)
 {
@@ -34,10 +74,10 @@ void *life_cycle(void *arg)
 	}
 }
 
-int eat(t_philosphers *phil, int number, int *state, t_status *stat)
+int eat(t_philosphers *phil, int number, int *state)
 {
 	int next;
-	pthread_t  thread;
+	pthread_t thread;
 
 	next = 0;
 	if (number < 1)
@@ -45,30 +85,20 @@ int eat(t_philosphers *phil, int number, int *state, t_status *stat)
 	if (next == 0)
 	{
 		pthread_mutex_lock(&(phil->mu[next]));
-		*state = -2;
-		stat->time = *phil->time;
-		//pthread_create(&thread, NULL, print_status, &stat);
+		phil->current = *phil->time;
+		pthread_create(&thread, NULL, print_status, phil);
+//	printf("Philospher %d has grabbed a fork\n", number);
 		pthread_mutex_lock(&(phil->mu[number]));
-		stat->time = *phil->time;
-		//pthread_create(&thread, NULL, print_status, &stat);
+
 	}
 	else
 	{	
-		printf("\n Start \n");
 		pthread_mutex_lock(&(phil->mu[number]));
-		printf("\n End \n");
-		stat->time = *phil->time;
-	//	pthread_create(&thread, NULL, print_status, &stat);
-		pthread_mutex_lock(&(phil->mu[number]));
+		printf("Philospher %d has grabbed a fork\n", number);
 		pthread_mutex_lock(&(phil->mu[next]));
-		stat->time = *phil->time;
-	//	pthread_create(&thread, NULL, print_status, &stat);
-		pthread_mutex_lock(&(phil->mu[number]));
+		printf("Philospher %d has grabbed another fork\n", number);
 	}
 	*state = 0;
-	stat->time = *phil->time;
-	//pthread_create(&thread, NULL, print_status, &stat);
-	pthread_mutex_lock(&(phil->mu[number]));
 	sleep(1);
 	pthread_mutex_unlock(&(phil->mu[next]));
 	return (0);
@@ -80,43 +110,44 @@ void phi_loop(t_philosphers *phil, int number)
 	t_lifetime life;
 	long elapsed;
 	pthread_t cycle;
-	t_status stat;
 
-	stat.number = number;
 	life.state = &state;
 	state = -1;
 	life.ttd = 3000;
 	life.elapsed = &elapsed;
 	elapsed = 0;
+	phil->state = &state;
 	pthread_create(&cycle, NULL, life_cycle, &life);
 	while (state != 3)
 	{
 		if (state == -1)
 		{
-			if (!eat(phil, number, &state, &stat))
+			if (!eat(phil, number, &state))
 			{
 				pthread_mutex_unlock(&(phil->mu[number]));
+				printf("Philospher %d has stopped eating\n", number);
 				state = 1;
 				elapsed = 0;
 				pthread_create(&cycle, NULL, life_cycle, &life);
+				printf("Philospher %d has stopped eating at : %ld\n", number, *phil->time);
 			}
 		}
 		else if (state == 1)
 		{
-			stat.time = *phil->time;
-		//	pthread_create(&cycle, NULL, print_status, &stat);
-			pthread_mutex_lock(&(phil->mu[number]));
+			printf("Philospher %d has started thinking at : %ld\n", number, elapsed);
 			sleep(1);
 			state++;
+			printf("Philospher %d has stopped thinking at : %ld\n", number, elapsed);
 		}
 		else if (state == 2)
 		{
-		//	pthread_create(&cycle, NULL, print_status, &stat);
+			printf("Philospher %d has started sleeping at : %ld\n", number, elapsed);
 			sleep(1);
 			state = -1;
+			printf("Philospher %d has stopped sleeping at : %ld\n", number, elapsed);
 		}
 	}
-	//pthread_create(&cycle, NULL, print_status, &stat);
+	printf("Philospher %d has died at : %ld\n", number, elapsed);
 	exit(0);
 }
 
@@ -131,6 +162,7 @@ void *test(void *ph)
 	phil->number++;
 	pthread_mutex_unlock(&phil->num);
 	phi_loop(phil, number);
+
 	pthread_exit(NULL);
 }
 
