@@ -121,7 +121,7 @@ void *phi_loop(void *arg)
 	printf("End \n");
 	phil->state = &state;
 	pthread_create(&cycle, NULL, life_cycle, &life);
-	while (state != 3)
+	while (state != 3 && (phil->eat < 0 || phil->eat_time < phil->eat))
 	{
 		if (state == -1)
 		{
@@ -177,31 +177,100 @@ void 	Spawn(char *args, long *time, pthread_mutex_t **mu, int i)
 	phil = (t_philosphers *)malloc(sizeof(t_philosphers));
 	phil->number = i;
 	phil->mu = *mu;
-	// phil.tt_die = times[0];
-	// phil.tt_sleep = times[1];
-	// phil.tt_eat = times[2];
-	// phil.tt_think = times[0];
+	// phil->tt_die = times[0];
+	// phil->tt_sleep = times[1];
+	// phil->tt_eat = times[2];
+	// phil->tt_think = times[0];
 	phil->time = time;
 	phil->state = 0;
 	pthread_create(&thread, NULL, phi_loop, phil);
 }
 
+void num_check(char **arg)
+{
+	long long number;
+	int i;
+
+	i = 2;
+	if ((__INT_MAX__ - ft_atol(arg[1])) < 0)
+	{
+		write(2, ERR_NMAX1, 41);
+		exit(0);
+	}
+	while (arg[i])
+	{
+		number = ft_atol(arg[i]);
+		if (number < 0)
+		{
+			write(2, ERR_NMAX2, 44);
+			exit(0);
+		}
+		i++;
+	}
+}
+
+void error_check(char **arg)
+{
+	int i;
+	int n;
+
+	i = 1;
+	while (arg[i])
+	{
+		n = 0;
+		if (arg[i][0] == '-')
+		{
+			write(1, ERR_NEG, 29);
+			exit(0);
+		}
+		while (arg[i][n])
+		{
+			if (arg[i][n] < '0' || arg[i][n] > '9')
+			{
+				write(1, ERR_NONUM, 26);
+				exit(0);
+			}
+			n++;
+		}
+		i++;
+	}
+}
+
+void	parser(char **arg, int (*iargs)[], int argc)
+{
+	int i;
+
+	i = 1;
+	if (argc > 7 || argc < 6)
+	{
+		write(2, ERR_ARGC, 28);
+		exit(0);
+	}
+	error_check(arg);
+	while (arg[i])
+	{
+		(*iargs)[i -1] = ft_atol(arg[i]);
+		i++;
+	}
+}
+
+
 int main(int argc, char **argv)
 {
 	pthread_mutex_t	*mu;
 	pthread_t thread;
-	pthread_mutex_t m;
+	int args[6];
 	int i;
 	long time;
 
 	i = 0;
 	time = 0;
+	parser(argv, &args, argc);
 	pthread_create(&thread, NULL,time_ct, &time);
 	mu = (pthread_mutex_t *)malloc(sizeof (pthread_mutex_t) * 2);
 	while (i < 2)
 	{
-		m = mu[i];
-		pthread_mutex_init(&m, NULL);
+		pthread_mutex_init(&mu[i], NULL);
 		printf("Start \n");
 		Spawn(argv[1], &time, &mu, i);
 		i++;
