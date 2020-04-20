@@ -12,13 +12,13 @@ typedef struct		s_philosphers
 	int				tt_die;
 	int				tt_sleep;
 	int				tt_eat;
+	int				tt_think;
 	int				*state;
 	long			*time;
 	long			current;
 	char			*num_str;
 	char			*time_str;
 	pthread_mutex_t	*mu;
-	pthread_mutex_t	num;
 }					t_philosphers;
 
 typedef struct		s_lifetime

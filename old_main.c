@@ -11,15 +11,15 @@ static void make_str(char *str, t_philosphers *phil, size_t len)
 	ft_strlcat(str," ms : Philosopher ", len);
 	ft_strlcat(str, phil->num_str, len);
 	if (*phil->state == -1)
-		ft_strlcat(str,"has taken a fork", len);
+		ft_strlcat(str," has taken a fork\n", len);
 	else if (*phil->state == 3)
-		ft_strlcat(str,"died", len);
+		ft_strlcat(str," died\n", len);
 	else if (*phil->state == 2)
-		ft_strlcat(str,"is thinking", len);
+		ft_strlcat(str," is thinking\n", len);
 	else if (*phil->state == 1)
-		ft_strlcat(str,"is sleeping", len);
+		ft_strlcat(str," is sleeping\n", len);
 	else if (*phil->state == 0)
-		ft_strlcat(str,"is eating", len);
+		ft_strlcat(str," is eating\n", len);
 	write(1, str, len);
 }
 
@@ -32,7 +32,7 @@ void *print_status(void *var)
 	phil = var;
 	phil->num_str = ft_ltoa_base(phil->number, 10);
 	phil->time_str = ft_ltoa_base(*phil->time, 10);
-	len = (ft_strlen(phil->time_str) + ft_strlen(phil->num_str) + 18);
+	len = (ft_strlen(phil->time_str) + ft_strlen(phil->num_str) + 20);
 	if (*phil->state == -1)
 		len += 18;
 	else if (*phil->state == 3)
@@ -87,16 +87,16 @@ int eat(t_philosphers *phil, int number, int *state)
 		pthread_mutex_lock(&(phil->mu[next]));
 		phil->current = *phil->time;
 		pthread_create(&thread, NULL, print_status, phil);
-//	printf("Philospher %d has grabbed a fork\n", number);
 		pthread_mutex_lock(&(phil->mu[number]));
+		pthread_create(&thread, NULL, print_status, phil);
 
 	}
 	else
 	{	
 		pthread_mutex_lock(&(phil->mu[number]));
-		printf("Philospher %d has grabbed a fork\n", number);
+		pthread_create(&thread, NULL, print_status, phil);
 		pthread_mutex_lock(&(phil->mu[next]));
-		printf("Philospher %d has grabbed another fork\n", number);
+		pthread_create(&thread, NULL, print_status, phil);
 	}
 	*state = 0;
 	sleep(1);
@@ -104,66 +104,53 @@ int eat(t_philosphers *phil, int number, int *state)
 	return (0);
 }
 
-void phi_loop(t_philosphers *phil, int number)
+void *phi_loop(void *arg)
 {
 	int state;//0 = sleeping, 1 = eating, 2 = thinking 3 = dead
 	t_lifetime life;
+	t_philosphers *phil;
 	long elapsed;
 	pthread_t cycle;
 
-	life.state = &state;
 	state = -1;
-	life.ttd = 3000;
-	life.elapsed = &elapsed;
 	elapsed = 0;
+	life.elapsed = &elapsed;
+	phil = arg;
+	life.state = &state;
+	life.ttd = 3000;
+	printf("End \n");
 	phil->state = &state;
 	pthread_create(&cycle, NULL, life_cycle, &life);
 	while (state != 3)
 	{
 		if (state == -1)
 		{
-			if (!eat(phil, number, &state))
+			if (!eat(phil, phil->number, &state))
 			{
-				pthread_mutex_unlock(&(phil->mu[number]));
-				printf("Philospher %d has stopped eating\n", number);
+				pthread_mutex_unlock(&(phil->mu[phil->number]));
 				state = 1;
 				elapsed = 0;
 				pthread_create(&cycle, NULL, life_cycle, &life);
-				printf("Philospher %d has stopped eating at : %ld\n", number, *phil->time);
 			}
 		}
 		else if (state == 1)
 		{
-			printf("Philospher %d has started thinking at : %ld\n", number, elapsed);
+			phil->current = *phil->time;
+			pthread_create(&cycle, NULL, print_status, phil);
 			sleep(1);
 			state++;
-			printf("Philospher %d has stopped thinking at : %ld\n", number, elapsed);
 		}
 		else if (state == 2)
 		{
-			printf("Philospher %d has started sleeping at : %ld\n", number, elapsed);
+			phil->current = *phil->time;
+			pthread_create(&cycle, NULL, print_status, phil);
 			sleep(1);
 			state = -1;
-			printf("Philospher %d has stopped sleeping at : %ld\n", number, elapsed);
 		}
 	}
-	printf("Philospher %d has died at : %ld\n", number, elapsed);
+	phil->current = *phil->time;
+	pthread_create(&cycle, NULL, print_status, phil);
 	exit(0);
-}
-
-void *test(void *ph)
-{
-	t_philosphers *phil;
-	int number;
-	phil = ph;
-
-	pthread_mutex_lock(&phil->num);
-	number = phil->number;
-	phil->number++;
-	pthread_mutex_unlock(&phil->num);
-	phi_loop(phil, number);
-
-	pthread_exit(NULL);
 }
 
 void *time_ct(void *var)
@@ -181,27 +168,42 @@ void *time_ct(void *var)
 	}
 }
 
+void 	Spawn(char *args, long *time, pthread_mutex_t **mu, int i)
+{
+	t_philosphers *phil;
+	pthread_t thread;
+	int number;
+
+	phil = (t_philosphers *)malloc(sizeof(t_philosphers));
+	phil->number = i;
+	phil->mu = *mu;
+	// phil.tt_die = times[0];
+	// phil.tt_sleep = times[1];
+	// phil.tt_eat = times[2];
+	// phil.tt_think = times[0];
+	phil->time = time;
+	phil->state = 0;
+	pthread_create(&thread, NULL, phi_loop, phil);
+}
+
 int main(int argc, char **argv)
 {
-	t_philosphers *philo;
+	pthread_mutex_t	*mu;
 	pthread_t thread;
 	pthread_mutex_t m;
 	int i;
 	long time;
 
 	i = 0;
-	philo = (t_philosphers *)malloc(sizeof(t_philosphers));
-	philo->number = i;
-	philo->time = &time;
 	time = 0;
-	pthread_mutex_init(&philo->num, NULL);
 	pthread_create(&thread, NULL,time_ct, &time);
-	philo->mu = (pthread_mutex_t *)malloc(sizeof (pthread_mutex_t) * 2);
+	mu = (pthread_mutex_t *)malloc(sizeof (pthread_mutex_t) * 2);
 	while (i < 2)
 	{
-		m = philo->mu[i];
+		m = mu[i];
 		pthread_mutex_init(&m, NULL);
-		pthread_create(&thread, NULL,test, &(*philo));
+		printf("Start \n");
+		Spawn(argv[1], &time, &mu, i);
 		i++;
 	}
 	pthread_exit(NULL);
