@@ -162,7 +162,7 @@ int main(int argc, char **argv)
 	philo->number = i;
 	philo->time = &time;
 	time = 0;
-	pthread_mutex_init(&philo->num, NULL);
+	pthread_mutex_init(&philo->pno, NULL);
 	pthread_create(&thread, NULL,time_ct, &time);
 	philo->mu = (pthread_mutex_t *)malloc(sizeof (pthread_mutex_t) * 2);
 	while (i < 2)
