@@ -36,7 +36,7 @@ void *life_cycle(void *arg)
 			*phil->state = 3;
 			phil->current = *phil->time;
 			if (phil->current < 0)
-				phil->current *-1;
+				phil->current *= -1;
 			pthread_create(&thread, NULL, print_status, phil);
 			exit(0);
 		}

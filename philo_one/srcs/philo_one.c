@@ -39,11 +39,9 @@ void *phi_loop(void *arg)
 {
 	int state;//0 = sleeping, 1 = eating, 2 = thinking 3 = dead
 	t_philosphers *phil;
-	long elapsed;
 	pthread_t cycle;
 
 	state = -1;
-	elapsed = 0;
 	phil = arg;
 	phil->state = &state;
 	pthread_create(&cycle, NULL, life_cycle, phil);
@@ -55,7 +53,6 @@ void *phi_loop(void *arg)
 			{
 				pthread_mutex_unlock(&(phil->mu[phil->number]));
 				state = 2;
-				elapsed = 0;
 				pthread_create(&cycle, NULL, life_cycle, phil);
 			}
 		}
@@ -74,7 +71,6 @@ void 	Spawn(int args[], long *time, pthread_mutex_t **mu, int i)
 {
 	t_philosphers *phil;
 	pthread_t thread;
-	int number;
 
 	phil = (t_philosphers *)malloc(sizeof(t_philosphers));
 	phil->number = i;

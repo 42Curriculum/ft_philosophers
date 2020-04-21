@@ -35,7 +35,7 @@ void *print_status(void *var)
 	else if (*phil->state == 0)
 		len += 10;
 	print = (char *)malloc(len + 1);
-	memset(print, len,'\0');
+	memset(print,'\0', len);
 	make_str(print, phil, len);
 	free(print);
 	if (*phil->state == 3)
