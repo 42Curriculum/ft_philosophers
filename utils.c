@@ -1,5 +1,5 @@
 #include <limits.h>
-#include "philosphers.h"
+#include "philo_one.h"
 
 long long	ft_atol(char *str)
 {
@@ -18,7 +18,7 @@ long long	ft_atol(char *str)
 	return (result);
 }
 
-	size_t	ft_strlcat(char *dst, char *src, size_t destsize)
+size_t	ft_strlcat(char *dst, char *src, size_t destsize)
 {
 	size_t len;
 	size_t i;
