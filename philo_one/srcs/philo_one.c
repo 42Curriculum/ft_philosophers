@@ -1,70 +1,52 @@
 #include "philo_one.h"
 
-int eat(t_philosphers *phil, int number, int *state)
+void grab_fork(t_philosphers *phil)
 {
-	int next;
-	pthread_t thread0;
-	pthread_t thread1;
-
-	next = 0;
-	if (number < 1)
-		next = number + 1;
-	if (next == 0)
-	{
-		pthread_mutex_lock(&(phil->mu[next]));
-		phil->current = *phil->time;
-		pthread_create(&thread1, NULL, print_status, phil);
-		pthread_create(&thread1, NULL, print_status, phil);
-		pthread_mutex_lock(&(phil->mu[number]));
-		phil->current = *phil->time;
-		pthread_create(&thread1, NULL, print_status, phil);
-	}
-	else
-	{	
-		pthread_mutex_lock(&(phil->mu[number]));
-		phil->current = *phil->time;
-		pthread_create(&thread1, NULL, print_status, phil);
-		pthread_create(&thread1, NULL, print_status, phil);
-		pthread_mutex_lock(&(phil->mu[next]));
-		phil->current = *phil->time;
-		pthread_create(&thread0, NULL, print_status, phil);
-	}
-	*state = 0;
-	do_stuff(phil, 2);
-	pthread_mutex_unlock(&(phil->mu[next]));
-	return (0);
+	pthread_mutex_lock(&(phil->mu[phil->unlock[0]]));
+	phil->printvars[1] = -1;
+	set_and_print(phil);
+	pthread_mutex_lock(&(phil->mu[phil->unlock[1]]));
+	set_and_print(phil);
 }
 
-void *phi_loop(void *arg)
-{
-	int state;//0 = sleeping, 1 = eating, 2 = thinking 3 = dead
-	t_philosphers *phil;
-	pthread_t cycle;
+// void grab_pairs(t_philosphers *phil)
+// {
+// 	if (phil->args[0]  % 2 == 0)
+// 	{
+// 		if (phil->printvars[0] % 2 == 0)
+// 		{
+// 			pthread_mutex_lock(&(phil->mu[phil->unlock[0]]));
+// 			phil->printvars[1] = -1;
+// 			set_and_print(phil);
+// 			pthread_mutex_lock(&(phil->mu[phil->unlock[1]]));
+// 			set_and_print(phil);
+// 		}
+// 	}
+// }
 
-	state = -1;
+void eat(t_philosphers *phil)
+{
+	grab_fork(phil);
+	phil->printvars[1] = 0;
+	do_stuff(phil, 2);
+	pthread_mutex_unlock(&(phil->mu[phil->unlock[1]]));
+	pthread_mutex_unlock(&(phil->mu[phil->unlock[0]]));
+	phil->printvars[1] = 2;
+}
+
+void *philosopher(void *arg)
+{
+	t_philosphers *phil;
+
 	phil = arg;
-	phil->state = &state;
-	pthread_create(&cycle, NULL, life_cycle, phil);
-	while (state != 3)
+	printf("I am %d I unlock : %d\n", phil->printvars[0], phil->unlock[0]);
+	while (42)
 	{
-		if (state == -1)
-		{
-			if (!eat(phil, phil->number, &state))
-			{
-				pthread_mutex_unlock(&(phil->mu[phil->number]));
-				state = 2;
-				pthread_create(&cycle, NULL, life_cycle, phil);
-			}
-		}
-		else if (state == 2)
-		{
-			phil->current = *phil->time;
-			pthread_create(&cycle, NULL, print_status, phil);
-			do_stuff(phil, 3);
-			state = -1;
-		}
+		set_and_print(phil);
+		eat(phil);
+		do_stuff(phil, 3);
+		phil->printvars[1] = 1;
 	}
-	exit(0);
 }
 
 void 	Spawn(int args[], long *time, pthread_mutex_t **mu, int i)
@@ -73,11 +55,28 @@ void 	Spawn(int args[], long *time, pthread_mutex_t **mu, int i)
 	pthread_t thread;
 
 	phil = (t_philosphers *)malloc(sizeof(t_philosphers));
-	phil->number = i;
+	phil->printvars[0] = i;
+	phil->printvars[1] = 1;
 	phil->mu = *mu;
-	phil->pno = args[0];
 	phil->args = args;
-	phil->state = 0;
 	phil->time = time;
-	pthread_create(&thread, NULL, phi_loop, phil);
+	phil->unlock[0] = i + 1;
+	phil->unlock[1] = i;
+	if (i == args[0] - 1)
+	{
+		phil->unlock[0] = i;
+		phil->unlock[1] = 0;
+	}
+	pthread_create(&thread, NULL, philosopher, phil);
 }
+
+// // Pair take highest
+// 1 - 2 - 1
+// 2 
+// 3 - 4 - 3
+// 4 
+
+// 1
+// 2 - 2
+// 3 
+// 4 - 4

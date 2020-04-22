@@ -16,3 +16,10 @@ $(P_ONE_OBJS): %.o : %.c
 p_one: $(P_ONE_OBJS)
 	gcc $(P_ONE_OBJS) -lpthread -o p_one
 
+fclean :
+	@rm -f philo_one/srcs/*.o
+	@rm -f p_one
+
+re : fclean p_one
+	
+.PHONY: clean fclean p_one

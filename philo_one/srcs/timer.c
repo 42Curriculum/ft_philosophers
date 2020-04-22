@@ -22,7 +22,6 @@ void *life_cycle(void *arg)
 	struct timeval time;
 	struct timeval time2;
 	long long elapsed;
-	pthread_t thread;
 
 	phil = arg;
 	gettimeofday(&time, NULL);
@@ -33,22 +32,21 @@ void *life_cycle(void *arg)
 		elapsed = (((time2.tv_sec - time.tv_sec) * 1000000 - (time2.tv_usec - time.tv_usec))/ 1000);
 		if (phil->args[1] <= elapsed)
 		{
-			*phil->state = 3;
 			phil->current = *phil->time;
-			if (phil->current < 0)
-				phil->current *= -1;
-			pthread_create(&thread, NULL, print_status, phil);
-			exit(0);
+			phil->printvars[1] = 3;
+			set_and_print(phil);
 		}
-		if (*phil->state == 0)
+		if (phil->printvars[1] == 0)
 			pthread_exit(NULL);
 	}
 }
+
 void do_stuff(t_philosphers *phil, int stuff)
 {
 	long i;
 	
 	i = 0;
+	set_and_print(phil);
 	while (i < phil->args[stuff])
 	{
 		usleep(1);

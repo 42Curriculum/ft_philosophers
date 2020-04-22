@@ -2,6 +2,7 @@
 #define PHILO_ONE_H
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -14,8 +15,7 @@ size_t	ft_strlcat(char *dst, char *src, size_t destsize);
 long long	ft_atol(char *str);
 char	*ft_ltoa_base(long long value, int base);
 
-void *print_status(void *var);
-void *print_status(void *var);
+void set_and_print(t_philosphers *phil);
 
 void	parser(char **arg, int (*iargs)[], int argc);
 
