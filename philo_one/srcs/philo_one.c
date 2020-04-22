@@ -9,21 +9,6 @@ void grab_fork(t_philosphers *phil)
 	set_and_print(phil);
 }
 
-// void grab_pairs(t_philosphers *phil)
-// {
-// 	if (phil->args[0]  % 2 == 0)
-// 	{
-// 		if (phil->printvars[0] % 2 == 0)
-// 		{
-// 			pthread_mutex_lock(&(phil->mu[phil->unlock[0]]));
-// 			phil->printvars[1] = -1;
-// 			set_and_print(phil);
-// 			pthread_mutex_lock(&(phil->mu[phil->unlock[1]]));
-// 			set_and_print(phil);
-// 		}
-// 	}
-// }
-
 void eat(t_philosphers *phil)
 {
 	grab_fork(phil);
@@ -36,14 +21,17 @@ void eat(t_philosphers *phil)
 
 void *philosopher(void *arg)
 {
+	int i;
 	t_philosphers *phil;
 
+	i = 0;
 	phil = arg;
-	printf("I am %d I unlock : %d\n", phil->printvars[0], phil->unlock[0]);
-	while (42)
+	while (i != phil->args[4])
 	{
 		set_and_print(phil);
 		eat(phil);
+		if (phil->args[4] > 0)
+			i++;
 		do_stuff(phil, 3);
 		phil->printvars[1] = 1;
 	}
@@ -69,14 +57,3 @@ void 	Spawn(int args[], long *time, pthread_mutex_t **mu, int i)
 	}
 	pthread_create(&thread, NULL, philosopher, phil);
 }
-
-// // Pair take highest
-// 1 - 2 - 1
-// 2 
-// 3 - 4 - 3
-// 4 
-
-// 1
-// 2 - 2
-// 3 
-// 4 - 4
