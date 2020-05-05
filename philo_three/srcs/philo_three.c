@@ -30,10 +30,9 @@ void eat(t_philosphers *phil)
 	phil->printvars[1] = 2;
 }
 
-void *philosopher(t_philosphers *phil)
+void philosopher(t_philosphers *phil)
 {
 	int i;
-	t_philosphers *phil;
 	pthread_t thread;
 
 	i = 0;
@@ -66,5 +65,5 @@ void 	Spawn(int args[], long *time, int *sem_c, int *death)
 	phil->time = time;
 	phil->sem_val = sem_c;
 	if (fork() == 0)
-		philosopher(philosopher);
+		philosopher(phil);
 }

@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:43:04 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 02:20:43 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 02:22:18 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void set_and_print(t_philosphers *phil);
 
 void	parser(char **arg, int (*iargs)[], int argc);
 
-void 	Spawn(int args[], long *time, sem_t *sem, int *sem_c);
+void 	Spawn(int args[], long *time, int *sem_c, int *death);
 
 void *time_ct(void *var);
 void *life_cycle(void *arg);
