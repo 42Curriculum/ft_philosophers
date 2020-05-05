@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 03:05:34 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 04:45:33 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 04:46:17 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void *life_cycle(void *arg)
 			elapsed *= -1;
 		if (phil->args[1] <= elapsed)
 		{
-			printf("Dies here %Lu\n", elapsed);
+			printf("Dies here %ll \n", elapsed);
 			phil->current = phil->time;
 			phil->printvars[1] = 3;
 			set_and_print(phil);
