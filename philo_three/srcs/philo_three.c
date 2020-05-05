@@ -46,7 +46,7 @@ void philosopher(t_philosphers *phil)
 			i++;
 			if (i >= phil->args[4])
 			{
-				printf("PHIL %d exited\n");
+				printf("PHIL %d exited\n",phil->printvars[0]);
 				exit(0);
 			}
 		}
