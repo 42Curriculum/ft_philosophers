@@ -63,7 +63,7 @@ void set_and_print(t_philosphers *phil)
 	print->args[0] = phil->printvars[0];
 	print->args[1] = phil->printvars[1];
 	print->args[2] = phil->printvars[2];
-	print->time = ft_ltoa_base(*phil->time, 10);
+	print->time = ft_ltoa_base(phil->time, 10);
 	print->num = ft_ltoa_base(print->args[0], 10);
 	pthread_create(&print_thread, NULL, print_status, print);
 }

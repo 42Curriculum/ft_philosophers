@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 03:05:50 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 04:38:50 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 04:40:31 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void philosopher(t_philosphers *phil, int *death)
 	exit(0);
 }
 
-void 	Spawn(int args[], long *time, int *sem_c, int *death)
+void 	Spawn(int args[], int *sem_c, int *death)
 {
 	t_philosphers *phil;
 	pthread_t thread;
@@ -84,7 +84,7 @@ void 	Spawn(int args[], long *time, int *sem_c, int *death)
 	phil->printvars[1] = 1;
 	phil->death = death;
 	phil->args = args;
-	phil->time = time;
+	phil->time = 0;
 	phil->sem_val = sem_c;
 	if (fork() == 0)
 		philosopher(phil, death);
