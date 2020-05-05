@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_two.h                                        :+:      :+:    :+:   */
+/*   philo_three.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:43:04 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/04 15:40:05 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 02:20:43 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include "philo_two_struct.h"
+#include "philo_three_struct.h"
 
 
 char		*ft_ltoa_base(long long value, int base);
