@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:42:53 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/04 23:36:26 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/04 23:40:30 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int main(int argc, char **argv)
 {
-	pthread_t thread;
 	sem_t *sem;
 	int args[6];
 	int i;
@@ -25,7 +24,6 @@ int main(int argc, char **argv)
 	parser(argv, &args, argc);
 	sem = sem_open(SEM_NAME, O_CREAT, 0x0002, args[0]);
 	sem_close(sem);
-	pthread_create(&thread, NULL,time_ct, &time);
 	i = args[0];
 	args[5] = args[0];
 	while (i > 0)
