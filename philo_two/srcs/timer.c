@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   timer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/22 14:43:09 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/04 16:26:42 by jjosephi         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "philo_one.h"
+#include "philo_two.h"
 #include <sys/time.h>
 
 void *time_ct(void *var)
@@ -25,8 +13,6 @@ void *time_ct(void *var)
 	{
 		gettimeofday(&time2, NULL);
 		*elapsed = (((time2.tv_sec - time.tv_sec) * 1000000 - (time2.tv_usec - time.tv_usec))/ 1000);
-		if (*elapsed < 0)
-			*elapsed *= -1;
 	}
 }
 

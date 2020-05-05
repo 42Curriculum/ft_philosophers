@@ -1,24 +1,36 @@
-#include "philo_one.h"
+#include "philo_two.h"
 
-void grab_fork(t_philosphers *phil)
+int ask_nicely(t_philosphers *phil)
 {
-	pthread_mutex_lock(&(phil->mu[phil->unlock[0]]));
-	phil->printvars[1] = -1;
-	set_and_print(phil);
-	pthread_mutex_lock(&(phil->mu[phil->unlock[1]]));
-	set_and_print(phil);
+	if (*phil->sem_val < 2)
+		return (STARVE_PEASANT);
+	*phil->sem_val -= 2;
+	return (EAT_SIR);
 }
 
 void eat(t_philosphers *phil)
 {
 	pthread_t thread;
+	sem_t *sem;
 
-	grab_fork(phil);
+int val;
+	sem = phil->sem;
+	while (!ask_nicely(phil));
+	printf("???\n");
+	sem_getvalue(sem, &val);
+	printf("semval %d\n", val);
+	sem_wait(sem);
+	sem_wait(sem);
+	phil->printvars[1] = -1;
+	set_and_print(phil);
+	set_and_print(phil);
 	phil->printvars[1] = 0;
 	do_stuff(phil, 2);
 	pthread_create(&thread, NULL, life_cycle, phil);
-	pthread_mutex_unlock(&(phil->mu[phil->unlock[1]]));
-	pthread_mutex_unlock(&(phil->mu[phil->unlock[0]]));
+	sem_post(sem);
+	sem_post(sem);
+	sem_close(sem);
+	*phil->sem_val += 2;
 	phil->printvars[1] = 2;
 }
 
@@ -41,29 +53,30 @@ void *philosopher(void *arg)
 		phil->printvars[1] = 1;
 	}
 	if (++*phil->death >= phil->args[6])
+	{
+		sem_close(phil->sem);
+		sem_unlink("SEM_TWO");
 		exit(0);
+	}
 	pthread_exit(0);
 }
 
-void 	Spawn(int args[], long *time, pthread_mutex_t **mu, int i)
+void 	Spawn(int args[], long *time, sem_t *sem , int *sem_c)
 {
 	t_philosphers *phil;
 	pthread_t thread;
+	static int i;
 	static int death;
 
 	phil = (t_philosphers *)malloc(sizeof(t_philosphers));
 	phil->printvars[0] = i;
+	i++;
 	phil->printvars[1] = 1;
-	phil->mu = *mu;
-	phil->args = args;
+	phil->sem = sem;
 	phil->death = &death;
+	phil->args = args;
 	phil->time = time;
-	phil->unlock[0] = i + 1;
-	phil->unlock[1] = i;
-	if (i == args[0] - 1)
-	{
-		phil->unlock[0] = i;
-		phil->unlock[1] = 0;
-	}
+	phil->sem_val = sem_c;
+	printf("START\n");
 	pthread_create(&thread, NULL, philosopher, phil);
 }

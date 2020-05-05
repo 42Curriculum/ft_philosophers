@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   output.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/22 14:43:12 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/04 16:26:02 by jjosephi         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "philo_one.h"
+#include "philo_two.h"
 
 static void make_str(t_print *print)
 {
@@ -63,8 +51,6 @@ void *print_status(void *var)
 	print->print = (char *)malloc(print->len  + 1);
 	memset(print->print,'\0', print->len );
 	make_str(print);
-	if (print->args[1] == 3)
-		exit(0);
 	pthread_exit(0);
 }
 

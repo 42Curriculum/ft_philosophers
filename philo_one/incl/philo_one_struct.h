@@ -6,7 +6,7 @@
 # define ERR_ARGC "Invalid number of arguments\n"\
 "Usage p_one [number_of_philosophers] [time_to_die]"\
 " [time_to_eat] [time_to_sleep] [eat_count]\n"
-# define ERR_NEG "Arguments cannot be negative\n"
+# define ERR_NEG "Arguments cannot be negative or null\n"
 # define ERR_NONUM "Arguments must be numbers\n"
  
 # define ERR_NMAX1 "Argument 1 must be betwwen 0 and INT_MAX\n"
@@ -19,6 +19,7 @@ typedef struct		s_philosphers
 	long			current;
 	int				printvars[3];//number, state, time
 	int				unlock[2];
+	int				*death;
 	pthread_mutex_t	*mu;
 }					t_philosphers;
 

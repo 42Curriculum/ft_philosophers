@@ -70,13 +70,17 @@ void eat_pair(t_philosphers *phil)
 
 void *philosopher(void *arg)
 {
+	int i;
 	t_philosphers *phil;
 
+	i = 0;
 	phil = arg;
-	while (42)
+	while (i != phil->args[4])
 	{
 		set_and_print(phil);
 		eat_pair(phil);
+		if (phil->args[4] > 0)
+			i++;
 		do_stuff(phil, 3);
 		phil->printvars[1] = 1;
 	}
