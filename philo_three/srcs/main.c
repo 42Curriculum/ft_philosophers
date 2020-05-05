@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:42:53 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 03:48:39 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 03:50:04 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 	pthread_t thread;
 	int args[6];
 	int i;
-	int *death;
+	int death;
 	long time;
 
 	parser(argv, &args, argc);
