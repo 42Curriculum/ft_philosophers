@@ -1,4 +1,4 @@
-#include "philo_three.h"
+#include "philo_two.h"
 
 static void make_str(t_print *print)
 {

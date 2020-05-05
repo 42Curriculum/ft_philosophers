@@ -1,4 +1,4 @@
-#include "philo_three.h"
+#include "philo_two.h"
 #include <sys/time.h>
 
 void *time_ct(void *var)
@@ -35,6 +35,7 @@ void *life_cycle(void *arg)
 			phil->current = *phil->time;
 			phil->printvars[1] = 3;
 			set_and_print(phil);
+			*phil->death = -1;
 			exit(0);
 		}
 		if (phil->printvars[1] == 0)

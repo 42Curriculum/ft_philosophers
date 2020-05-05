@@ -56,5 +56,10 @@ fclean : clean
 	@rm -f p_three
 
 re : fclean p_one p_two p_three
+
+save :
+	git add .
+	git commit -m"automated push"
+	git push git master
 	
-.PHONY: clean fclean p_one p_two p_three
+.PHONY: clean fclean p_one p_two p_three save

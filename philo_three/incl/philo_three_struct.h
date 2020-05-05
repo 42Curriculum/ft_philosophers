@@ -6,12 +6,12 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:43:06 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/04 16:07:09 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 01:57:23 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_TTHREE_STRUCT_H
-#define PHILO_TTHREE_STRUCT_H
+#ifndef PHILO_TWO_STRUCT_H
+#define PHILO_TWO_STRUCT_H
 
 #include <pthread.h>
 #include <semaphore.h>
@@ -26,7 +26,6 @@
 # define ERR_NMAX2 "Argument 2-6 must be betwwen 0 and LONG_MAX\n"
 # define EAT_SIR 1
 # define STARVE_PEASANT 0
-# define SEM_NAME "SEM_THREE"
 
 typedef struct		s_philosphers
 {
@@ -35,6 +34,8 @@ typedef struct		s_philosphers
 	long			current;
 	int				printvars[3];//number, state, time
 	int				*sem_val;
+	int 			*death;
+	int				*end;
 	sem_t			*sem;
 }					t_philosphers;
 

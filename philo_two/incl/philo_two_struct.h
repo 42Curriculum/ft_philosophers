@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:43:06 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/04 15:39:54 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 01:29:33 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define ERR_NMAX2 "Argument 2-6 must be betwwen 0 and LONG_MAX\n"
 # define EAT_SIR 1
 # define STARVE_PEASANT 0
+# define SEM_NAME "SEM_THREE"
 
 typedef struct		s_philosphers
 {

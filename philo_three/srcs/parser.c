@@ -6,11 +6,11 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:43:19 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/04 15:13:39 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/04/22 14:43:20 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_three.h"
+#include "philo_two.h"
 
 void num_check(char **arg)
 {
