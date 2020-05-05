@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 03:05:50 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 03:05:51 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 03:07:47 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void philosopher(t_philosphers *phil)
 			{
 				printf("PHIL %d exited\n",phil->printvars[0]);
 				*phil->death -= 1;
+				printf("Death %d exited\n",*phil->death);
 				exit(0);
 			}
 		}
