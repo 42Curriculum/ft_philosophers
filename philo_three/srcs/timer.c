@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 03:05:34 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 04:48:51 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 04:54:58 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ void *time_ct(void *var)
 	while (1)
 	{
 		gettimeofday(&time2, NULL);
-		*elapsed = (((time2.tv_sec - time.tv_sec) * 1000000 - (time2.tv_usec - time.tv_usec))/ 1000);
+		*elapsed = (((time2.tv_sec - time.tv_sec) * 1000000 + (time2.tv_usec - time.tv_usec))/ 1000);
+		if (*elapsed < 0)
+			*elapsed *= -1;
 	}
 }
 
@@ -41,7 +43,7 @@ void *life_cycle(void *arg)
 	while (1)
 	{
 		gettimeofday(&time2, NULL);
-		elapsed = (((time2.tv_sec - time.tv_sec) * 1000000 - (time2.tv_usec - time.tv_usec))/ 1000);
+		elapsed = (((time2.tv_sec - time.tv_sec) * 1000000 + (time2.tv_usec - time.tv_usec))/ 1000);
 		if (elapsed < 0)
 			elapsed *= -1;
 		if (phil->args[1] <= elapsed)
