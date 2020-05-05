@@ -33,6 +33,7 @@ void philosopher(t_philosphers *phil)
 	pthread_t thread;
 
 	i = 0;
+	phil->sem = sem_open(SEM_NAME, O_RDWR);
 	pthread_create(&thread, NULL,time_ct, &phil->time);
 	pthread_create(&thread, NULL, life_cycle, phil);
 	while (i != phil->args[4])
@@ -60,7 +61,6 @@ void 	Spawn(int args[], long *time,int *sem_c)
 	phil = (t_philosphers *)malloc(sizeof(t_philosphers));
 	phil->printvars[0] = i;
 	i++;
-	phil->sem = sem_open(SEM_NAME, O_RDWR);
 	phil->printvars[1] = 1;
 	phil->args = args;
 	phil->time = time;
