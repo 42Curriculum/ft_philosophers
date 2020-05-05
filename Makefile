@@ -38,7 +38,7 @@ p_one_pair: $(P_ONE_PAIR_OBJS)
 $(P_TWO_OBJS): %.o : %.c
 		gcc $(FLAGS) -c -I philo_two/incl/ $< -o $@
 p_two: $(P_TWO_OBJS)
-	gcc $(P_TWO_OBJS) -lpthread -lrt -o p_two
+	gcc $(P_TWO_OBJS) -lpthread -o p_two
 
 $(P_THREE_OBJS): %.o : %.c
 		gcc $(FLAGS) -c -I philo_three/incl/ $< -o $@

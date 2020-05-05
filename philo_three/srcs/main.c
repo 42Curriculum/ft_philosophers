@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:42:53 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/04 16:07:54 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/04 21:25:43 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 	i = 0;
 	time = 0;
 	parser(argv, &args, argc);
-	sem = sem_open(SEM_NAME, O_CREAT, args[0]);
+	sem = sem_open(SEM_NAME, O_CREAT, 0x0002, args[0]);
 	sem_close(sem);
 	pthread_create(&thread, NULL,time_ct, &time);
 	i = args[0];
