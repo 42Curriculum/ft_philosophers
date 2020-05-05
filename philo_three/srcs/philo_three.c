@@ -37,16 +37,24 @@ void philosopher(t_philosphers *phil)
 
 	i = 0;
 	pthread_create(&thread, NULL, life_cycle, phil);
-	while (i != phil->args[4] && *phil->death > 0)
+	while (*phil->death > 0)
 	{
 		set_and_print(phil);
 		eat(phil);
 		if (phil->args[4] > 0)
+		{
 			i++;
+			if (i >= phil->args[4])
+			{
+				printf("PHIL %d exited\n");
+				exit(0);
+			}
+		}
 		do_stuff(phil, 3);
 		phil->printvars[1] = 1;
 	}
 	*phil->death -= 1;
+	
 	exit(0);
 }
 
