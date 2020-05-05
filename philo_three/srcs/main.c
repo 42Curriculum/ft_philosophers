@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:42:53 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/04 21:25:43 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/04 21:35:15 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 	sem_close(sem);
 	pthread_create(&thread, NULL,time_ct, &time);
 	i = args[0];
-	args[6] = args[0];
+	args[5] = args[0];
 	while (i > 0)
 	{
 		Spawn(args, &time, &args[0]);

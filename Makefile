@@ -43,7 +43,7 @@ p_two: $(P_TWO_OBJS)
 $(P_THREE_OBJS): %.o : %.c
 		gcc $(FLAGS) -c -I philo_three/incl/ $< -o $@
 p_three: $(P_THREE_OBJS)
-	gcc $(P_THREE_OBJS) -lpthread -lrt -o p_three
+	gcc $(P_THREE_OBJS) -lpthread -o p_three
 
 clean :
 	@rm -f philo_one/srcs/*.o
