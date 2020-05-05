@@ -46,7 +46,7 @@ void philosopher(t_philosphers *phil)
 		do_stuff(phil, 3);
 		phil->printvars[1] = 1;
 	}
-	*phil->death--;
+	*phil->death -= 1;
 	exit(0);
 }
 
