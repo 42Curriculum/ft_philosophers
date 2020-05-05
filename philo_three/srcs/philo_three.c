@@ -47,15 +47,14 @@ void philosopher(t_philosphers *phil)
 			if (i >= phil->args[4])
 			{
 				printf("PHIL %d exited\n",phil->printvars[0]);
-				*phil->death -=1;
+				*phil->death -= 1;
 				exit(0);
 			}
 		}
 		do_stuff(phil, 3);
 		phil->printvars[1] = 1;
 	}
-	*phil->death -= 1;
-	
+	*phil->death = -1;
 	exit(0);
 }
 
