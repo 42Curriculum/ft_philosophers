@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 03:05:34 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 04:39:25 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 04:45:33 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ void *life_cycle(void *arg)
 	{
 		gettimeofday(&time2, NULL);
 		elapsed = (((time2.tv_sec - time.tv_sec) * 1000000 - (time2.tv_usec - time.tv_usec))/ 1000);
+		if (elapsed < 0)
+			elapsed *= -1;
 		if (phil->args[1] <= elapsed)
 		{
+			printf("Dies here %Lu\n", elapsed);
 			phil->current = phil->time;
 			phil->printvars[1] = 3;
 			set_and_print(phil);
-			*phil->death = -1;
 			exit(0);
 		}
 		if (phil->printvars[1] == 0)
@@ -61,6 +63,7 @@ void do_stuff(t_philosphers *phil, int stuff)
 	
 	i = 0;
 	set_and_print(phil);
+	printf("Time to do stuff %d", stuff);
 	while (i < phil->args[stuff])
 	{
 		usleep(1);
