@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:42:53 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 04:38:38 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 04:41:54 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 
 	while (i > 0)
 	{
-		Spawn(args, &time, &args[0], &death);
+		Spawn(args, &args[0], &death);
 		i--;
 	}
 }
