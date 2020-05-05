@@ -1,5 +1,5 @@
 #include <limits.h>
-#include "philo_two.h"
+#include "philo_three.h"
 
 long long	ft_atol(char *str)
 {

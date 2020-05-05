@@ -1,4 +1,4 @@
-#include "philo_two.h"
+#include "philo_three.h"
 #include <sys/time.h>
 
 void *time_ct(void *var)
