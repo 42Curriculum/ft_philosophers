@@ -17,8 +17,7 @@ int val;
 	sem = phil->sem;
 	while (!ask_nicely(phil));
 	printf("???\n");
-	sem_getvalue(sem, &val);
-	printf("semval %d\n", val);
+
 	sem_wait(sem);
 	sem_wait(sem);
 	phil->printvars[1] = -1;
