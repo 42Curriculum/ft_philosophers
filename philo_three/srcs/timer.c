@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 03:05:34 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 04:54:58 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 04:56:34 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,5 @@ void do_stuff(t_philosphers *phil, int stuff)
 	i = 0;
 	set_and_print(phil);
 	printf("Time to do stuff %d\n", phil->args[stuff]);
-	while (i < phil->args[stuff])
-	{
-		usleep(1);
-		i++;
-	}
+	usleep(phil->args[stuff]);
 }
