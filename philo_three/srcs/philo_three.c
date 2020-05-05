@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 03:05:50 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 04:02:04 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 04:38:50 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void philosopher(t_philosphers *phil, int *death)
 
 	i = 0;
 	pthread_create(&thread, NULL, life_cycle, phil);
+	pthread_create(&thread, NULL,time_ct, &phil->time);
 	while (*phil->death > 0)
 	{
 		set_and_print(phil);

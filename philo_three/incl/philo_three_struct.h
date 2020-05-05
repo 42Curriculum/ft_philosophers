@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:43:06 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 02:22:35 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 04:39:04 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 typedef struct		s_philosphers
 {
 	int				*args;
-	long			*time;
+	long			time;
 	long			current;
 	int				printvars[3];//number, state, time
 	int				*sem_val;
