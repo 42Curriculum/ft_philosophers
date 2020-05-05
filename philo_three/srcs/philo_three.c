@@ -30,25 +30,18 @@ void eat(t_philosphers *phil)
 void philosopher(t_philosphers *phil)
 {
 	int i;
-	int time;
 	pthread_t thread;
 
 	i = 0;
-	time = 0;
-	phil->sem = sem_open(SEM_NAME, O_RDWR);
-	pthread_create(&thread, NULL,time_ct, &time);
-	phil->time = &time;
+	pthread_create(&thread, NULL,time_ct, &phil->time);
 	pthread_create(&thread, NULL, life_cycle, phil);
 	while (i != phil->args[4])
 	{
 		set_and_print(phil);
 		eat(phil);
 		if (phil->args[4] > 0)
-		{
-			printf("I IS %d\n", i);
-			if (++i >= phil->args[4])
+			if (++i == phil->args[4])
 				break ;
-		}
 		do_stuff(phil, 3);
 		phil->printvars[1] = 1;
 	}
@@ -64,8 +57,10 @@ void 	Spawn(int args[], long *time,int *sem_c)
 	phil = (t_philosphers *)malloc(sizeof(t_philosphers));
 	phil->printvars[0] = i;
 	i++;
+	phil->sem = sem_open(SEM_NAME, O_RDWR);
 	phil->printvars[1] = 1;
 	phil->args = args;
+	phil->time = time;
 	phil->sem_val = sem_c;
 	if (fork() == 0)
 		philosopher(phil);

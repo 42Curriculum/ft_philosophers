@@ -35,6 +35,7 @@ void *life_cycle(void *arg)
 			phil->current = *phil->time;
 			phil->printvars[1] = 3;
 			set_and_print(phil);
+			exit(0);
 		}
 		if (phil->printvars[1] == 0)
 			pthread_exit(NULL);
