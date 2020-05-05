@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:42:53 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/04 21:35:15 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/04 23:36:26 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ int main(int argc, char **argv)
 		Spawn(args, &time, &args[0]);
 		i--;
 	}
-	pthread_exit(NULL);
+	exit(0);
 }

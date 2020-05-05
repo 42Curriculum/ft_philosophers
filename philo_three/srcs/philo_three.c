@@ -40,7 +40,7 @@ void philosopher(t_philosphers *phil)
 		set_and_print(phil);
 		eat(phil);
 		if (phil->args[4] > 0)
-			if (i == phil->args[4])
+			if (++i == phil->args[4])
 				break ;
 		do_stuff(phil, 3);
 		phil->printvars[1] = 1;
