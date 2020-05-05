@@ -61,5 +61,10 @@ save :
 	git add .
 	git commit -m"automated push"
 	git push git master
-	
-.PHONY: clean fclean p_one p_two p_three save
+
+get :
+	git add .
+	git stash
+	git pull
+
+.PHONY: clean fclean p_one p_two p_three save get
