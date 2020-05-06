@@ -11,24 +11,21 @@ int ask_nicely(t_philosphers *phil)
 void eat(t_philosphers *phil)
 {
 	pthread_t thread;
-	sem_t *sem;
-
-int val;
-	sem = phil->sem;
+	
 	while (!ask_nicely(phil));
-	printf("???\n");
-
-	sem_wait(sem);
-	sem_wait(sem);
+	printf("START\n");
+	sem_wait(phil->sem);
+	printf("END\n");
+	sem_wait(phil->sem);
 	phil->printvars[1] = -1;
 	set_and_print(phil);
 	set_and_print(phil);
 	phil->printvars[1] = 0;
 	do_stuff(phil, 2);
 	pthread_create(&thread, NULL, life_cycle, phil);
-	sem_post(sem);
-	sem_post(sem);
-	sem_close(sem);
+	sem_post(phil->sem);
+	sem_post(phil->sem);
+	sem_close(phil->sem);
 	*phil->sem_val += 2;
 	phil->printvars[1] = 2;
 }
@@ -52,11 +49,7 @@ void *philosopher(void *arg)
 		phil->printvars[1] = 1;
 	}
 	if (++*phil->death >= phil->args[6])
-	{
-		sem_close(phil->sem);
-		sem_unlink("SEM_TWO");
 		exit(0);
-	}
 	pthread_exit(0);
 }
 
@@ -76,6 +69,5 @@ void 	Spawn(int args[], long *time, sem_t *sem , int *sem_c)
 	phil->args = args;
 	phil->time = time;
 	phil->sem_val = sem_c;
-	printf("START\n");
 	pthread_create(&thread, NULL, philosopher, phil);
 }

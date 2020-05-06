@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:42:53 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 04:41:54 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 22:36:58 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int main(int argc, char **argv)
 
 	parser(argv, &args, argc);
 	sem_close(sem_open("SEM_TWO", O_CREAT , S_IRWXO, args[0]));
-	i = 0;
 	i = args[0];
 	death = args[0];
-
+	if (i == 0)
+		exit(0);
 	while (i > 0)
 	{
 		Spawn(args, &args[0], &death);

@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 03:05:50 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 04:40:31 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 22:37:22 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void philosopher(t_philosphers *phil, int *death)
 void 	Spawn(int args[], int *sem_c, int *death)
 {
 	t_philosphers *phil;
-	pthread_t thread;
 	static int i;
 
 	phil = (t_philosphers *)malloc(sizeof(t_philosphers));

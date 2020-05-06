@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/22 14:43:09 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/04 16:26:42 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 22:34:39 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void *time_ct(void *var)
 	while (1)
 	{
 		gettimeofday(&time2, NULL);
-		*elapsed = (((time2.tv_sec - time.tv_sec) * 1000000 - (time2.tv_usec - time.tv_usec))/ 1000);
+		*elapsed = (((time2.tv_sec - time.tv_sec) * 1000) + ((time2.tv_usec - time.tv_usec) / 1000));
 		if (*elapsed < 0)
 			*elapsed *= -1;
 	}
@@ -43,7 +43,7 @@ void *life_cycle(void *arg)
 	while (1)
 	{
 		gettimeofday(&time2, NULL);
-		elapsed = (((time2.tv_sec - time.tv_sec) * 1000000 - (time2.tv_usec - time.tv_usec))/ 1000);
+		elapsed = (((time2.tv_sec - time.tv_sec) * 1000) + ((time2.tv_usec - time.tv_usec) / 1000));
 		if (phil->args[1] <= elapsed)
 		{
 			phil->current = *phil->time;
@@ -58,13 +58,6 @@ void *life_cycle(void *arg)
 
 void do_stuff(t_philosphers *phil, int stuff)
 {
-	long i;
-	
-	i = 0;
 	set_and_print(phil);
-	while (i < phil->args[stuff])
-	{
-		usleep(1);
-		i++;
-	}
+	usleep(phil->args[stuff] * 1000);
 }

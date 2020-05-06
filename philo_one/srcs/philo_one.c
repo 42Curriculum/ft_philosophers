@@ -35,12 +35,16 @@ void *philosopher(void *arg)
 	{
 		set_and_print(phil);
 		eat(phil);
+		pthread_create(&thread, NULL, life_cycle, phil);
 		if (phil->args[4] > 0)
-			i++;
+		{
+			if (++i >= phil->args[4])
+				break ;
+		}
 		do_stuff(phil, 3);
 		phil->printvars[1] = 1;
 	}
-	if (++*phil->death >= phil->args[6])
+	if (++*phil->death >= phil->args[5])
 		exit(0);
 	pthread_exit(0);
 }

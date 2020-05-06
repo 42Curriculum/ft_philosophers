@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 03:05:34 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 21:08:18 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 22:35:15 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void *time_ct(void *var)
 	while (1)
 	{
 		gettimeofday(&time2, NULL);
-		*elapsed = (((time2.tv_sec - time.tv_sec) * 1000000 + (time2.tv_usec - time.tv_usec))/ 1000);
+		*elapsed = (((time2.tv_sec - time.tv_sec) * 1000) + ((time2.tv_usec - time.tv_usec) / 1000));
 		if (*elapsed < 0)
 			*elapsed *= -1;
 	}
@@ -43,15 +43,14 @@ void *life_cycle(void *arg)
 	while (1)
 	{
 		gettimeofday(&time2, NULL);
-		elapsed = (((time2.tv_sec - time.tv_sec) * 1000000 + (time2.tv_usec - time.tv_usec))/ 1000);
+		elapsed = (((time2.tv_sec - time.tv_sec) * 1000) + ((time2.tv_usec - time.tv_usec) / 1000));
 		if (elapsed < 0)
 			elapsed *= -1;
-		if (phil->args[1] * 1000 <= elapsed)
+		if (phil->args[1] <= elapsed)
 		{
 			phil->current = phil->time;
 			phil->printvars[1] = 3;
 			set_and_print(phil);
-	printf("Wait time %d\n", phil->args[1]);
 			exit(0);
 		}
 		if (phil->printvars[1] == 0)
@@ -61,9 +60,6 @@ void *life_cycle(void *arg)
 
 void do_stuff(t_philosphers *phil, int stuff)
 {
-	long i;
-	
-	i = 0;
 	set_and_print(phil);
 	usleep(phil->args[stuff] * 1000);
 }
