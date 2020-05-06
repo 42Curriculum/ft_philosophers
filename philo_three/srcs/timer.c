@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 03:05:34 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 21:04:01 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 21:08:18 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void *life_cycle(void *arg)
 	phil = arg;
 	gettimeofday(&time, NULL);
 	elapsed = 0;
-	printf("Wait time %d\n", phil->args[1]);
 	while (1)
 	{
 		gettimeofday(&time2, NULL);
@@ -52,6 +51,7 @@ void *life_cycle(void *arg)
 			phil->current = phil->time;
 			phil->printvars[1] = 3;
 			set_and_print(phil);
+	printf("Wait time %d\n", phil->args[1]);
 			exit(0);
 		}
 		if (phil->printvars[1] == 0)
