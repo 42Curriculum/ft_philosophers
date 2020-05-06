@@ -6,7 +6,7 @@
 /*   By: jjosephi <jjosephi@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/05 03:05:34 by jjosephi          #+#    #+#             */
-/*   Updated: 2020/05/05 04:56:34 by jjosephi         ###   ########.fr       */
+/*   Updated: 2020/05/05 20:59:22 by jjosephi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void *life_cycle(void *arg)
 		elapsed = (((time2.tv_sec - time.tv_sec) * 1000000 + (time2.tv_usec - time.tv_usec))/ 1000);
 		if (elapsed < 0)
 			elapsed *= -1;
-		if (phil->args[1] <= elapsed)
+		if (phil->args[1] * 1000 <= elapsed)
 		{
-			printf("Dies here %ll \n", elapsed);
 			phil->current = phil->time;
 			phil->printvars[1] = 3;
 			set_and_print(phil);
+			printf("IS DEAD\n");
 			exit(0);
 		}
 		if (phil->printvars[1] == 0)
@@ -65,6 +65,5 @@ void do_stuff(t_philosphers *phil, int stuff)
 	
 	i = 0;
 	set_and_print(phil);
-	printf("Time to do stuff %d\n", phil->args[stuff]);
 	usleep(phil->args[stuff]);
 }
