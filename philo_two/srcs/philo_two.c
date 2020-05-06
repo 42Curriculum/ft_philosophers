@@ -13,9 +13,7 @@ void eat(t_philosphers *phil)
 	pthread_t thread;
 	
 	while (!ask_nicely(phil));
-	printf("START\n");
 	sem_wait(phil->sem);
-	printf("END\n");
 	sem_wait(phil->sem);
 	phil->printvars[1] = -1;
 	set_and_print(phil);
